@@ -37,6 +37,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/lib/State.o \
 	${OBJECTDIR}/lib/TuringMachine.o \
+	${OBJECTDIR}/lib/TuringTape.o \
 	${OBJECTDIR}/lib/tools.o \
 	${OBJECTDIR}/main.o
 
@@ -74,6 +75,11 @@ ${OBJECTDIR}/lib/TuringMachine.o: lib/TuringMachine.cpp
 	${MKDIR} -p ${OBJECTDIR}/lib
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/lib/TuringMachine.o lib/TuringMachine.cpp
+
+${OBJECTDIR}/lib/TuringTape.o: lib/TuringTape.cpp 
+	${MKDIR} -p ${OBJECTDIR}/lib
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/lib/TuringTape.o lib/TuringTape.cpp
 
 ${OBJECTDIR}/lib/tools.o: lib/tools.cpp 
 	${MKDIR} -p ${OBJECTDIR}/lib

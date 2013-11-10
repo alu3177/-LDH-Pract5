@@ -8,6 +8,7 @@
 #ifndef TOOLS
 #define	TOOLS
 
+#include <iostream>
 #include <stdint.h>
 #include <vector>
 
@@ -23,9 +24,9 @@ bool isInVector(vector<T>* &i_vector, T i_elem){
 }
 
 template <typename T>
-bool isInVector(vector<T* >* &i_vector, T* i_elem){
+bool isInVector(vector<T* >* const &i_vector, T* i_elem){
     for (uint32_t i = 0; i < i_vector->size(); i++)
-        if (i_vector->at(i) == i_elem)
+        if (*i_vector->at(i) == *i_elem)
             return true;
     
     return false;

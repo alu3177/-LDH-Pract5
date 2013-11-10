@@ -29,6 +29,8 @@
     <itemPath>lib/State.h</itemPath>
     <itemPath>lib/TuringMachine.cpp</itemPath>
     <itemPath>lib/TuringMachine.h</itemPath>
+    <itemPath>lib/TuringTape.cpp</itemPath>
+    <itemPath>lib/TuringTape.h</itemPath>
     <itemPath>lib/tools.cpp</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
@@ -48,6 +50,10 @@
       <item path="lib/TuringMachine.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="lib/TuringMachine.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="lib/TuringTape.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="lib/TuringTape.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="lib/tools.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -81,6 +87,10 @@
       <item path="lib/TuringMachine.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="lib/TuringMachine.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="lib/TuringTape.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="lib/TuringTape.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="lib/tools.cpp" ex="false" tool="1" flavor2="0">
       </item>

@@ -8,15 +8,12 @@
 #ifndef STATE_H
 #define	STATE_H
 
-#include <set>
-#include <stdint.h>
+#include <iostream>
 #include <string>
+#include <vector>
+#include "../definitions.h"
 
 using namespace std;
-
-typedef uint16_t idt_t;
-enum TapeMovement { L, R, S };
-const char BLANK = '$';
 
 struct Transition{
     idt_t        stateID;
@@ -24,19 +21,33 @@ struct Transition{
     char         writeSymbol;
     TapeMovement move;
     idt_t        nextStateID;
+    
+    bool operator==(const Transition& tr) const{
+        return (stateID == tr.stateID && inputSymbol == tr.inputSymbol);
+    }
 };
+
 
 class State {
 public:
-    State(idt_t i_id, bool i_final = false);
+    State(idt_t const &i_id, bool const &i_final = false);
     virtual ~State();
     
+    idt_t GetID() const { return _id; }
+    
+    bool AddTransition(Transition* const &i_tr);
+    
+    friend ostream& operator<<(ostream &out, State const &i_st);
+    friend bool operator== (State const &i_st1, State const &i_st2);
 private:
+    vector<Transition* >* GetTransitions() const { return _transitions; }
+    
     idt_t _id;
     bool _final;
-    set<Transition* >* _transitions;
-
+    vector<Transition* >* _transitions;
 };
+
+
 
 #endif	/* STATE_H */
 
