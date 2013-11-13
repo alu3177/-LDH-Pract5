@@ -26,11 +26,14 @@ public:
     char Read(int const &i_pos) const;
     void Write(int const &i_pos, char const &i_symbol);
     
+    int LowerPos() const { return _lowerPos; }
+    int UpperPos() const { return _upperPos; }
+    
     friend ostream& operator<<(ostream &out, TuringTape const &i_tt);
 private:
     map<int, char> _tape;
-    int _upperPos;
     int _lowerPos;
+    int _upperPos;
     
 
 };

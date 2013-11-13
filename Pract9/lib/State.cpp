@@ -23,6 +23,13 @@ bool State::AddTransition(Transition* const &i_tr){
     return false;
 }
 
+Transition* State::GetTransition(char const &i_inputSymbol){
+    for (uint16_t i = 0; i < _transitions->size(); i++)
+        if (_transitions->at(i)->inputSymbol == i_inputSymbol)
+            return _transitions->at(i);
+    return NULL;
+}
+
 ostream& operator<<(ostream &out, State const &i_st){
     out << "ID: " << i_st._id << endl;
     string final = i_st._final ? "Final" : "No Final";

@@ -16,10 +16,14 @@
 using namespace std;
 
 int main(int argc, char** argv) {
-    TuringTape t;
-    t.ParseFile("tapes/ejem1.tmt");
+    TuringTape* t = new TuringTape();
+    t->ParseFile("tapes/ejem1.tmt");
+    TuringMachine tm(0);
+    string path = "machines/ejem1.tm";
+    tm.ParseFile(path);
+    tm.LoadTape(t);
+    tm.Run();
     
-    cout << t << endl;
     /*
     map<int, char> tape;
     //tape.insert(pair<int, char>(0,'0'));
