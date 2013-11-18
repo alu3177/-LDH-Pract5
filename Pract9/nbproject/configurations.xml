@@ -4,6 +4,11 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>lib/State.h</itemPath>
+      <itemPath>lib/TuringMachine.h</itemPath>
+      <itemPath>lib/TuringTape.h</itemPath>
+      <itemPath>lib/menu.h</itemPath>
+      <itemPath>lib/tools.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -12,6 +17,9 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>lib/State.cpp</itemPath>
+      <itemPath>lib/TuringMachine.cpp</itemPath>
+      <itemPath>lib/TuringTape.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -25,13 +33,6 @@
                    kind="IMPORTANT_FILES_FOLDER">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
-    <itemPath>lib/State.cpp</itemPath>
-    <itemPath>lib/State.h</itemPath>
-    <itemPath>lib/TuringMachine.cpp</itemPath>
-    <itemPath>lib/TuringMachine.h</itemPath>
-    <itemPath>lib/TuringTape.cpp</itemPath>
-    <itemPath>lib/TuringTape.h</itemPath>
-    <itemPath>lib/tools.cpp</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -55,7 +56,9 @@
       </item>
       <item path="lib/TuringTape.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="lib/tools.cpp" ex="false" tool="1" flavor2="0">
+      <item path="lib/menu.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="lib/tools.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -92,7 +95,9 @@
       </item>
       <item path="lib/TuringTape.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="lib/tools.cpp" ex="false" tool="1" flavor2="0">
+      <item path="lib/menu.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="lib/tools.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>

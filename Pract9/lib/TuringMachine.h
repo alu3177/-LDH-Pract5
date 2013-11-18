@@ -17,23 +17,24 @@ using namespace std;
 
 class TuringMachine {
 public:
-    TuringMachine(idt_t const &i_id);
+    TuringMachine(string const &i_path);
     //TuringMachine(const TuringMachine& orig);
     virtual ~TuringMachine();
     
-    bool ParseFile(string const &i_path);
-    void LoadTape(TuringTape* i_tape) {  delete(_tape); _tape = i_tape; }
+    bool IsInitialized() const { return _initialized; }
+    bool LoadTape(string const &i_path);
+    //void SetTape(TuringTape* i_tape) { _tape = i_tape; }
     bool Run();
     
     friend ostream& operator<<(ostream &out, TuringMachine const &i_tm);
 private:
+    bool ParseFile(string const &i_path);
     State* GetState(idt_t const &i_id) const;
     vector<State* >* GetStates() const { return _states; }
     vector<idt_t>* GetStatesIDs() const;
     bool AddState(State* i_st);
-    
-    idt_t _id;
-    //idt_t _currState;
+
+    bool _initialized;
     int _tapePos;
     vector<State* >* _states;
     TuringTape* _tape;

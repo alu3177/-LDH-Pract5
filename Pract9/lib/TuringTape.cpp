@@ -9,12 +9,10 @@
 #include <iostream>
 #include "TuringTape.h"
 
-TuringTape::TuringTape() {
+TuringTape::TuringTape(string const &i_path) {
     _upperPos = 0;
     _lowerPos = 0;
-}
-
-TuringTape::TuringTape(const TuringTape& orig) {
+    _initialized = ParseFile(i_path);
 }
 
 TuringTape::~TuringTape() {
@@ -36,6 +34,7 @@ bool TuringTape::ParseFile(string const &i_path){
         Write(i, raw[i]);
         _upperPos++;
     }
+    return true;
 }
 
 char TuringTape::Read(int const &i_pos) const{

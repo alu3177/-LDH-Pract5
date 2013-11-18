@@ -1,5 +1,5 @@
 /* 
- * File:   tools.cpp
+ * File:   tools.h
  * Author: Fernando González López - Peñalver
  * 
  * Created on 9 de noviembre de 2013, 23:51

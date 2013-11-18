@@ -6,7 +6,7 @@
  */
 
 #include "State.h"
-#include "tools.cpp"
+#include "tools.h"
 
 State::State(idt_t const &i_id, bool const &i_final) : _id(i_id), _final(i_final){
     _transitions = new vector<Transition* >();

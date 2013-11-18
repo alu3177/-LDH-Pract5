@@ -7,16 +7,16 @@
 
 #include <fstream>
 #include <iostream>
-#include "tools.cpp"
+#include "tools.h"
 
 #include "TuringMachine.h"
 
-TuringMachine::TuringMachine(idt_t const &i_id) {
-    _id = i_id;
+TuringMachine::TuringMachine(string const &i_path){
     //_currState = 0;
     _tapePos = 0;
     _states = new vector<State* >();
     _tape = NULL;
+    _initialized = ParseFile(i_path);
 }
 
 TuringMachine::~TuringMachine() {
@@ -38,15 +38,15 @@ bool TuringMachine::ParseFile(string const &i_path){
     *fs >> firstFinal;
     *fs >> nTuples;
     
-    vector<idt_t>* readedStates = new vector<idt_t>();
+    //vector<idt_t>* readedStates = new vector<idt_t>();
     for (uint16_t i = 0; i < nTuples; i++){
         Transition* tr = new Transition;
         char move;
         *fs >> tr->stateID >> tr->inputSymbol >> tr->writeSymbol >> move >> tr->nextStateID;
-        if (!isInVector<idt_t>(readedStates, i))
-            readedStates->push_back(i);            
-        if (!isInVector<idt_t>(readedStates, tr->nextStateID))
-            readedStates->push_back(tr->nextStateID);
+        //if (!isInVector<idt_t>(readedStates, i))
+        //    readedStates->push_back(i);            
+        //if (!isInVector<idt_t>(readedStates, tr->nextStateID))
+        //    readedStates->push_back(tr->nextStateID);
         switch(move){
             case 'R':
             case 'r': tr->move = R; break;
@@ -65,21 +65,37 @@ bool TuringMachine::ParseFile(string const &i_path){
         }
         stActual->AddTransition(tr);
     }
-    
+    /*
     vector<idt_t>* stsIDs = GetStatesIDs();
     for (uint16_t i = 0; i < readedStates->size(); i++){
         idt_t rStateID = readedStates->at(i);
         if ( !isInVector<idt_t>(stsIDs, rStateID) ){
             // "rStateID" no está en el vector de estados. Lo creamos y añadimos
+            cout << "Añadiendo estado " << rStateID << endl;  // DEBUG
             bool final = rStateID < firstFinal ? false : true;
-            State* newState = new State(rStateID, final);
-            AddState(newState);
+            AddState(new State(rStateID, final));
         }
     }
+    */
+    
+    if (_states->size() < nStates)
+        for (idt_t i = 0; i < nStates; i++)
+            if (GetState(i) == NULL){
+                bool final = i < firstFinal ? false : true;
+                AddState(new State(i, final));
+            }
+    
+    return true;
+}
+
+bool TuringMachine::LoadTape(string const &i_path){
+   _tape = new TuringTape(i_path);
+   return _tape->IsInitialized();
 }
 
 bool TuringMachine::Run(){
     //cout << "RUN" << endl;  // DEBUG
+    _tapePos = 0;
     State* stActual = GetState(0);
     cout << "[" << 0 << "] ";
     for (int i = _tape->LowerPos() - 1; i < _tape->UpperPos() + 1; i++){
@@ -98,8 +114,9 @@ bool TuringMachine::Run(){
         //cout << "SymbLeido = " << symbLeido << endl;  // DEBUG
         Transition* trActual = stActual->GetTransition(symbLeido);
         if (trActual == NULL){
-            cout << "[RESULTADO] Cadena rechazada." << endl;  // DEBUG ?
-            return false;
+            // TODO: Estudiar esto
+            cout << C_BRED << "[RESULTADO] Cadena rechazada." << C_DEFAULT << endl;  // DEBUG ?
+            return (stActual->isFinal() ? true : false);
         }
         _tape->Write(_tapePos, trActual->writeSymbol);
         switch(trActual->move){
@@ -109,7 +126,7 @@ bool TuringMachine::Run(){
         }
         stActual = GetState(trActual->nextStateID);
         if (stActual == NULL){
-            cout << "[RESULTADO] Cadena rechazada." << endl;  // DEBUG ?
+            cout << C_BRED << "[RESULTADO] Cadena rechazada." << C_DEFAULT << endl;  // DEBUG ?
             return false;
         }
             
@@ -127,7 +144,7 @@ bool TuringMachine::Run(){
     }
     
     if (stActual->isFinal()){
-        cout << "[RESULTADO] Cadena aceptada." << endl;
+        cout << C_BGREEN << "[RESULTADO] Cadena aceptada." << C_DEFAULT << endl;
         return true;
     }
     return false;
@@ -156,7 +173,6 @@ vector<idt_t>* TuringMachine::GetStatesIDs() const{
 }
 
 ostream& operator<<(ostream &out, TuringMachine const &i_tm){
-    out << "ID:            " << i_tm._id << endl;
     out << "Posición del cabezal: " << i_tm._tapePos << endl;
 //    out << "Estado actual: " << i_tm._currState << endl;
     if (VERBOSE){
@@ -175,6 +191,7 @@ ostream& operator<<(ostream &out, TuringMachine const &i_tm){
             }
             cout << * i_tm._states->at(i);
         }
+        cout << C_DEFAULT;
     }else{
         out << "Numero de estados: " << i_tm._states->size() << endl;
     }

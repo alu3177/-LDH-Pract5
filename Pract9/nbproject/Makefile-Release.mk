@@ -38,7 +38,6 @@ OBJECTFILES= \
 	${OBJECTDIR}/lib/State.o \
 	${OBJECTDIR}/lib/TuringMachine.o \
 	${OBJECTDIR}/lib/TuringTape.o \
-	${OBJECTDIR}/lib/tools.o \
 	${OBJECTDIR}/main.o
 
 
@@ -80,11 +79,6 @@ ${OBJECTDIR}/lib/TuringTape.o: lib/TuringTape.cpp
 	${MKDIR} -p ${OBJECTDIR}/lib
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/lib/TuringTape.o lib/TuringTape.cpp
-
-${OBJECTDIR}/lib/tools.o: lib/tools.cpp 
-	${MKDIR} -p ${OBJECTDIR}/lib
-	${RM} $@.d
-	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/lib/tools.o lib/tools.cpp
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
