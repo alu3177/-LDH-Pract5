@@ -77,6 +77,8 @@ bool TuringMachine::Run(){
     int nSteps = 0;
     State* stActual = GetState(0);
     _tapePos = 0;
+    if (VERBOSE)
+        cout << nSteps++ << " - ";
     cout << "[" << 0 << "] ";
     for (int i = _tape->LowerPos() - 1; i <= _tape->UpperPos() + 1; i++){
             if (i == 0)

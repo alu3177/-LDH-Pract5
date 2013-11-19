@@ -22,11 +22,34 @@ void Pausa(){
     do c = getchar(); while((c != '\n') && (c != EOF));
 }
 
+/**
+ * Método encargado del manejo de un sencillo sistema de navegación de directorios
+ * basado en una cadena con la ruta completa y un comando de entrada que puede 
+ * ser bien el nombre o ruta de un directorio o el comando ".." para subir un
+ * nivel.
+ * @param i_currPath Contiene la ruta con la que se está trabajando
+ * @param i_dir Nombre/Ruta de directorio a añadir o comando ".." para subir nivel
+ */
+void Dir(string &i_currPath, string const &i_dir){
+    if (i_dir.empty())
+        return;
+    if (i_dir == ".."){
+        if (i_currPath == ".")
+            return;
+        unsigned lastBarPos = i_currPath.find_last_of("/");
+        i_currPath = i_currPath.substr(0, lastBarPos);
+    }else{
+        i_currPath += "/" + i_dir;
+    }
+}
+
 void Menu(TuringMachine* &tm){
     bool loaded = false;
     bool tapeLoaded = false;
     string defFilename;
     string tapeFilename;
+    string defDir = ".";
+    string tapeDir = ".";
     int opt;
     while(1){
         system("clear");
@@ -43,6 +66,12 @@ void Menu(TuringMachine* &tm){
         }
         cout << ".. [0] Salir                                             ··" << endl;
         cout << "···························································" << endl;
+        if (loaded){
+            cout << "   [Fichero *.tm cargado]  : " << defDir << "/" << defFilename << endl;
+            if (tapeLoaded)
+                cout << "   [Fichero *.tmt cargado] : " << tapeDir << "/" << tapeFilename << endl;
+        }
+        cout << endl << endl;
         cout << "Opción: ";
         cin >> opt;
         system("clear");
@@ -53,13 +82,19 @@ void Menu(TuringMachine* &tm){
 
             case 1:
                 loaded = false;
+                getline(cin, defFilename);  // usado para "capturar" el enter de seleccionar la opción
+                cout << "Ruta del fichero de definición" << endl;
                 while (!loaded){
-                    cout << "Ruta del fichero de definición: ";
-                    cin >> defFilename;
-                    tm = new TuringMachine(defFilename);
-                    if (tm->IsInitialized()){
-                        loaded = true;
-                        tapeLoaded = false;
+                    cout << defDir << "/> ";
+                    getline(cin, defFilename);
+                    if (defFilename.substr(0, 2) == "cd"){
+                        Dir(defDir, defFilename.substr(3, defFilename.npos));
+                    }else{
+                        tm = new TuringMachine(defDir + "/" + defFilename);
+                        if (tm->IsInitialized()){
+                            loaded = true;
+                            tapeLoaded = false;
+                        }
                     }
                 }
                 break;
@@ -67,10 +102,16 @@ void Menu(TuringMachine* &tm){
             case 2:
                 if (loaded){
                     tapeLoaded = false;
+                    getline(cin, tapeFilename);  // usado para "capturar" el enter de seleccionar la opción
+                    cout << "Ruta del fichero de cinta" << endl;
                     while (!tapeLoaded){
-                        cout << "Ruta del fichero de cinta: ";
-                        cin >> tapeFilename;
-                        tapeLoaded = tm->LoadTape(tapeFilename);
+                        cout << tapeDir << "/> ";
+                        getline(cin, tapeFilename);
+                        if (tapeFilename.substr(0, 2) == "cd"){
+                            Dir(tapeDir, tapeFilename.substr(3, tapeFilename.npos));
+                        }else{
+                            tapeLoaded = tm->LoadTape(tapeDir + "/" + tapeFilename);
+                        }
                     }
                 }
                 break;
