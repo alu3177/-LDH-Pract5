@@ -30,10 +30,8 @@ bool TuringTape::ParseFile(string const &i_path){
     
     *fs >> raw;
     
-    for (uint16_t i = 0; i < raw.size(); i++){
+    for (uint16_t i = 0; i < raw.size(); i++)
         Write(i, raw[i]);
-        _upperPos++;
-    }
     return true;
 }
 
@@ -55,7 +53,7 @@ void TuringTape::Write(int const &i_pos, char const &i_symbol){
 
 ostream& operator<<(ostream &out, TuringTape const &i_tt){
     out << BLANK_SYMBOL;
-    for (uint16_t i = i_tt._lowerPos; i < i_tt._upperPos; i++){
+    for (uint16_t i = i_tt._lowerPos; i <= i_tt._upperPos; i++){
         out << i_tt.Read(i);
     }
     out << BLANK_SYMBOL << endl;

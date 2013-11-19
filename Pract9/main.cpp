@@ -1,8 +1,11 @@
-/* 
- * File:   main.cpp
- * Author: Fernando González López - Peñalver
- *
- * Created on 9 de noviembre de 2013, 23:34
+/*
+ * Computabilidad y Algoritmia 2013 - 2014
+ * Práctica 9 - Simulación de una Máquina de Turing
+ * Fecha de entrega: 21 - 11 - 2013
+ * 
+ * Autor: Fernando González López - Peñalver
+ * Email: alu0100256543@ull.edu.es
+ * 
  */
 
 #include <cstdlib>
@@ -14,7 +17,6 @@ int main(int argc, char** argv) {
     TuringMachine* tm;
     
     Menu(tm);
-    
     return EXIT_SUCCESS;
 }
 

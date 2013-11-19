@@ -9,9 +9,9 @@
 #define	STATE_H
 
 #include <iostream>
+#include "../definitions.h"
 #include <string>
 #include <vector>
-#include "../definitions.h"
 
 using namespace std;
 

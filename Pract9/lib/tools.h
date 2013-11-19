@@ -8,7 +8,6 @@
 #ifndef TOOLS
 #define	TOOLS
 
-#include <iostream>
 #include <stdint.h>
 #include <vector>
 

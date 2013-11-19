@@ -24,7 +24,6 @@ TuringMachine::~TuringMachine() {
 
 bool TuringMachine::ParseFile(string const &i_path){
     fstream* fs = new fstream(i_path.c_str());
-    
     if (!fs->is_open()){
         cout << "[ERROR FICHERO] No se ha podido abrir el fichero \"" << i_path << "\"" << endl;
         return false;
@@ -37,16 +36,11 @@ bool TuringMachine::ParseFile(string const &i_path){
     *fs >> nStates;
     *fs >> firstFinal;
     *fs >> nTuples;
-    
-    //vector<idt_t>* readedStates = new vector<idt_t>();
+
     for (uint16_t i = 0; i < nTuples; i++){
         Transition* tr = new Transition;
         char move;
         *fs >> tr->stateID >> tr->inputSymbol >> tr->writeSymbol >> move >> tr->nextStateID;
-        //if (!isInVector<idt_t>(readedStates, i))
-        //    readedStates->push_back(i);            
-        //if (!isInVector<idt_t>(readedStates, tr->nextStateID))
-        //    readedStates->push_back(tr->nextStateID);
         switch(move){
             case 'R':
             case 'r': tr->move = R; break;
@@ -65,26 +59,12 @@ bool TuringMachine::ParseFile(string const &i_path){
         }
         stActual->AddTransition(tr);
     }
-    /*
-    vector<idt_t>* stsIDs = GetStatesIDs();
-    for (uint16_t i = 0; i < readedStates->size(); i++){
-        idt_t rStateID = readedStates->at(i);
-        if ( !isInVector<idt_t>(stsIDs, rStateID) ){
-            // "rStateID" no está en el vector de estados. Lo creamos y añadimos
-            cout << "Añadiendo estado " << rStateID << endl;  // DEBUG
-            bool final = rStateID < firstFinal ? false : true;
-            AddState(new State(rStateID, final));
-        }
-    }
-    */
-    
+    // Manejo de estados sin transiciones
     if (_states->size() < nStates)
         for (idt_t i = 0; i < nStates; i++)
             if (GetState(i) == NULL){
-                bool final = i < firstFinal ? false : true;
-                AddState(new State(i, final));
+                AddState(new State(i, i < firstFinal ? false : true));
             }
-    
     return true;
 }
 
@@ -94,11 +74,11 @@ bool TuringMachine::LoadTape(string const &i_path){
 }
 
 bool TuringMachine::Run(){
-    //cout << "RUN" << endl;  // DEBUG
-    _tapePos = 0;
+    int nSteps = 0;
     State* stActual = GetState(0);
+    _tapePos = 0;
     cout << "[" << 0 << "] ";
-    for (int i = _tape->LowerPos() - 1; i < _tape->UpperPos() + 1; i++){
+    for (int i = _tape->LowerPos() - 1; i <= _tape->UpperPos() + 1; i++){
             if (i == 0)
                 cout << C_BRED;
             cout << _tape->Read(i);
@@ -108,14 +88,10 @@ bool TuringMachine::Run(){
         cout << endl;
     
     while(stActual->TransitionCount() > 0){
-        //cout << "ID: " << stActual->GetID() << endl;  // DEBUG
-        //cout << "tCount = " << stActual->TransitionCount() << endl;  // DEBUG
         char symbLeido = _tape->Read(_tapePos);
-        //cout << "SymbLeido = " << symbLeido << endl;  // DEBUG
         Transition* trActual = stActual->GetTransition(symbLeido);
         if (trActual == NULL){
-            // TODO: Estudiar esto
-            cout << C_BRED << "[RESULTADO] Cadena rechazada." << C_DEFAULT << endl;  // DEBUG ?
+            cout << C_BRED << "[RESULTADO] Estado de NO aceptación." << C_DEFAULT << endl;  // DEBUG ?
             return (stActual->isFinal() ? true : false);
         }
         _tape->Write(_tapePos, trActual->writeSymbol);
@@ -126,14 +102,14 @@ bool TuringMachine::Run(){
         }
         stActual = GetState(trActual->nextStateID);
         if (stActual == NULL){
-            cout << C_BRED << "[RESULTADO] Cadena rechazada." << C_DEFAULT << endl;  // DEBUG ?
+            cout << C_BRED << "[RESULTADO] Estado de NO aceptación." << C_DEFAULT << endl;  // DEBUG ?
             return false;
         }
-            
-        
         // Mostramos las cinta, resaltando en color la posición del cabezal
+        if (VERBOSE)
+            cout << nSteps++ << " - ";
         cout << "[" << stActual->GetID() << "] ";
-        for (int i = _tape->LowerPos() - 1; i < _tape->UpperPos() + 1; i++){
+        for (int i = _tape->LowerPos() - 1; i <= _tape->UpperPos() + 1; i++){
             if (i == _tapePos)
                 cout << C_BRED;
             cout << _tape->Read(i);
@@ -142,9 +118,8 @@ bool TuringMachine::Run(){
         }
         cout << endl;
     }
-    
     if (stActual->isFinal()){
-        cout << C_BGREEN << "[RESULTADO] Cadena aceptada." << C_DEFAULT << endl;
+        cout << C_BGREEN << "[RESULTADO] Estado de ACEPTACIÓN." << C_DEFAULT << endl;
         return true;
     }
     return false;
@@ -174,7 +149,6 @@ vector<idt_t>* TuringMachine::GetStatesIDs() const{
 
 ostream& operator<<(ostream &out, TuringMachine const &i_tm){
     out << "Posición del cabezal: " << i_tm._tapePos << endl;
-//    out << "Estado actual: " << i_tm._currState << endl;
     if (VERBOSE){
         uint16_t cPos = 0;
         for (uint16_t i = 0; i < i_tm._states->size(); i++){

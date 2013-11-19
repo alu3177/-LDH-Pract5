@@ -9,9 +9,9 @@
 #define	TURINGMACHINE_H
 
 #include <vector>
+#include "../definitions.h"
 #include "State.h"
 #include "TuringTape.h"
-#include "../definitions.h"
 
 using namespace std;
 

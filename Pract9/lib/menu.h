@@ -57,8 +57,10 @@ void Menu(TuringMachine* &tm){
                     cout << "Ruta del fichero de definición: ";
                     cin >> defFilename;
                     tm = new TuringMachine(defFilename);
-                    if (tm->IsInitialized())
+                    if (tm->IsInitialized()){
                         loaded = true;
+                        tapeLoaded = false;
+                    }
                 }
                 break;
 

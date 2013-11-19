@@ -30,7 +30,7 @@ const char BLANK_SYMBOL = '$';
 
 
 // Modo VERBOSE: Si se activa se muestra mas informacion
-#define VERBOSE     true
+#define VERBOSE     false
 
 #endif	/* DEFINITIONS_H */
 
