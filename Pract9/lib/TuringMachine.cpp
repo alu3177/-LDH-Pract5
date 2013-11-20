@@ -1,8 +1,11 @@
-/* 
- * File:   TuringMachine.cpp
- * Author: Fernando González López - Peñalver
+/*
+ * Computabilidad y Algoritmia 2013 - 2014
+ * Práctica 9 - Simulación de una Máquina de Turing
+ * Fecha de entrega: 21 - 11 - 2013
  * 
- * Created on 9 de noviembre de 2013, 23:46
+ * Autor: Fernando González López - Peñalver
+ * Email: alu0100256543@ull.edu.es
+ * 
  */
 
 #include <fstream>
@@ -20,6 +23,11 @@ TuringMachine::TuringMachine(string const &i_path){
 }
 
 TuringMachine::~TuringMachine() {
+    for (uint16_t i = 0; i < _states->size(); i++)
+        delete(_states->at(i++));
+    delete(_states);
+    delete(_tape);
+    _initialized = false;
 }
 
 bool TuringMachine::ParseFile(string const &i_path){
@@ -76,7 +84,7 @@ bool TuringMachine::LoadTape(string const &i_path){
 bool TuringMachine::Run(){
     int nSteps = 0;
     State* stActual = GetState(0);
-    _tapePos = 0;
+    _tapePos = stActual->GetID();
     if (VERBOSE)
         cout << nSteps++ << " - ";
     cout << "[" << 0 << "] ";
@@ -135,18 +143,11 @@ State* TuringMachine::GetState(idt_t const &i_id) const{
 }
 
 bool TuringMachine::AddState(State* i_st){
-    if (!isInVector<State>(GetStates(), i_st)){
+    if (!isInVector<State>(_states, i_st)){
         _states->push_back(i_st);
         return true;
     }
     return false;
-}
-
-vector<idt_t>* TuringMachine::GetStatesIDs() const{
-    vector<idt_t>* result = new vector<idt_t>();
-    for (uint16_t i = 0; i < _states->size(); i++)
-        result->push_back(_states->at(i)->GetID());
-    return result;
 }
 
 ostream& operator<<(ostream &out, TuringMachine const &i_tm){
@@ -156,14 +157,14 @@ ostream& operator<<(ostream &out, TuringMachine const &i_tm){
         for (uint16_t i = 0; i < i_tm._states->size(); i++){
             cPos = i % NCOLORS;
             switch (cPos){
-                case 0: cout << C_RED; break;
-                case 1: cout << C_BLUE; break;
-                case 2: cout << C_GREEN; break;
-                case 3: cout << C_CYAN; break;
-                case 4: cout << C_MAGENTA; break;
-                case 5: cout << C_BRED; break;
-                case 6: cout << C_BGREEN; break;
-                default: cout << C_DEFAULT; break;
+                case 0:  cout << C_RED;      break;
+                case 1:  cout << C_BLUE;     break;
+                case 2:  cout << C_GREEN;    break;
+                case 3:  cout << C_CYAN;     break;
+                case 4:  cout << C_MAGENTA;  break;
+                case 5:  cout << C_BRED;     break;
+                case 6:  cout << C_BGREEN;   break;
+                default: cout << C_DEFAULT;  break;
             }
             cout << * i_tm._states->at(i);
         }

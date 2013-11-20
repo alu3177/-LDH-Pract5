@@ -1,8 +1,11 @@
-/* 
- * File:   State.cpp
- * Author: Fernando González López - Peñalver
+/*
+ * Computabilidad y Algoritmia 2013 - 2014
+ * Práctica 9 - Simulación de una Máquina de Turing
+ * Fecha de entrega: 21 - 11 - 2013
  * 
- * Created on 9 de noviembre de 2013, 23:51
+ * Autor: Fernando González López - Peñalver
+ * Email: alu0100256543@ull.edu.es
+ * 
  */
 
 #include "State.h"
@@ -16,7 +19,7 @@ State::~State() {
 }
 
 bool State::AddTransition(Transition* const &i_tr){
-    if (!isInVector<Transition>(GetTransitions(), i_tr)){
+    if (!isInVector<Transition>(_transitions, i_tr)){
         _transitions->push_back(i_tr);
         return true;
     }
@@ -50,7 +53,7 @@ bool operator== (State const &i_st1, State const &i_st2){
     if (i_st1._transitions->size() != i_st2._transitions->size())
         return false;
     for (uint16_t i = 0; i < i_st1._transitions->size(); i++){
-        if (!isInVector<Transition>(i_st1.GetTransitions(), i_st1._transitions->at(i)))
+        if (!isInVector<Transition>(i_st1._transitions, i_st1._transitions->at(i)))
             return false;
     }
     return true;

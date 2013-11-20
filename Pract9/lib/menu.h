@@ -1,8 +1,11 @@
-/* 
- * File:   menu.h
- * Author: aladaris
- *
- * Created on 18 de noviembre de 2013, 16:20
+/*
+ * Computabilidad y Algoritmia 2013 - 2014
+ * Práctica 9 - Simulación de una Máquina de Turing
+ * Fecha de entrega: 21 - 11 - 2013
+ * 
+ * Autor: Fernando González López - Peñalver
+ * Email: alu0100256543@ull.edu.es
+ * 
  */
 
 #ifndef MENU_H

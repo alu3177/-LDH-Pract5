@@ -1,8 +1,11 @@
-/* 
- * File:   TuringTape.cpp
- * Author: aladaris
+/*
+ * Computabilidad y Algoritmia 2013 - 2014
+ * Práctica 9 - Simulación de una Máquina de Turing
+ * Fecha de entrega: 21 - 11 - 2013
  * 
- * Created on 10 de noviembre de 2013, 19:53
+ * Autor: Fernando González López - Peñalver
+ * Email: alu0100256543@ull.edu.es
+ * 
  */
 
 #include <fstream>
@@ -16,6 +19,7 @@ TuringTape::TuringTape(string const &i_path) {
 }
 
 TuringTape::~TuringTape() {
+    _initialized = false;
 }
 
 bool TuringTape::ParseFile(string const &i_path){
